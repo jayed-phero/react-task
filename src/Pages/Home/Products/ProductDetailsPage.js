@@ -174,7 +174,7 @@ const ProductDetailsPage = () => {
                             <span class="ml-3">Add to cart</span>
                         </button>
                     </div>
-                    <hr class=" 2xl:!my-10 border-slate-200 dark:border-slate-700"></hr>
+                    <hr class=" 2xl:!my-10 border-slate-200 dark:border-slate-700 my-5"></hr>
                     <div className='w-full rounded-2xl space-y-2.5'>
                         <button class="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 " id="headlessui-disclosure-button-:R179bdcja:" type="button" aria-expanded="true" data-headlessui-state="open" aria-controls="headlessui-disclosure-panel-:R279bdcja:">
                             <span>Description</span>

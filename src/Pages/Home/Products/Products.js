@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 import CartSIdebar from './CartSIdebar';
+import './Products.css';
+
 
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     const [showCartSidebar, setShowCartSidebar] = useState(false);
+    const [lastAddedItem, setLastAddedItem] = useState(null);
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(5);
@@ -31,6 +34,16 @@ const Products = () => {
         fetchProducts();
     }, []);
 
+
+    useEffect(() => {
+        const storedCartItems = localStorage.getItem('cartItems');
+        if (storedCartItems) {
+            setCartItems(JSON.parse(storedCartItems));
+        }
+    }, [setCartItems]);
+
+    console.log(cartItems)
+
     const addToCart = (product) => {
         const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
         const existingItemIndex = existingCartItems.findIndex((item) => item._id === product._id);
@@ -45,29 +58,37 @@ const Products = () => {
         setCartItems(existingCartItems);
         localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
         // toast.success("Product added in cart");
+        setLastAddedItem(product);
         setShowCartSidebar(true);
 
         setTimeout(() => {
             setShowCartSidebar(false);
-        }, 1000);
+        }, 3000);
     };
 
     console.log(products)
     return (
-        <div className='max-w-6xl mx-auto px-5 xl:px-0'>
-            <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10'>
-                {
-                    products?.map((product, i) => (
-                        <ProductCard
-                            key={product._id}
-                            product={product}
-                            i={i}
-                            addToCart={addToCart}
-                        />
-                    ))
-                }
+        <div className='relative'>
+            <div className='max-w-6xl mx-auto px-5 xl:px-0'>
+                <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10'>
+                    {
+                        products?.map((product, i) => (
+                            <ProductCard
+                                key={product._id}
+                                product={product}
+                                i={i}
+                                addToCart={addToCart}
+                            />
+                        ))
+                    }
+                </div>
             </div>
-            {showCartSidebar && <CartSIdebar cartItems={cartItems} />}
+            {
+                <CartSIdebar
+                    lastAddedItem={lastAddedItem}
+                    showCartSidebar={showCartSidebar}
+                />
+            }
         </div>
     );
 };

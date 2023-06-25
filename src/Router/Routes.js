@@ -6,6 +6,7 @@ import Products from "../Pages/Home/Products/Products";
 import ProductDetailsPage from "../Pages/Home/Products/ProductDetailsPage";
 import axios from "axios";
 import Cart from "../Pages/Cart/Cart";
+import Checkout from "../Pages/Orders/Checkout";
 
 const routes = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const routes = createBrowserRouter([
             {
                 path: '/cart',
                 element: <Cart />
+            },
+            {
+                path: "/checkout",
+                element: <Checkout />
             }
         ]
     },
