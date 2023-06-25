@@ -14,10 +14,11 @@ const Products = () => {
     const [size, setSize] = useState(5);
     const pages = Math.ceil(count / size);
 
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/v1/shop/products?page=${page}&size=${size}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/shop/products?page=${page}&size=${size}`);
                 console.log(response);
                 if (response.ok) {
                     const data = await response.json();
@@ -67,6 +68,8 @@ const Products = () => {
     };
 
     console.log(products)
+
+
     return (
         <div className='relative'>
             <div className='max-w-6xl mx-auto px-5 xl:px-0'>

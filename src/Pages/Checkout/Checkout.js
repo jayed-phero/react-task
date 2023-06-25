@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CheckoutRow from './CheckoutRow';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 
 const Checkout = () => {
@@ -11,6 +12,7 @@ const Checkout = () => {
     const [taxEstimate, setTaxEstimate] = useState(0);
     const [orderTotal, setOrderTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -67,6 +69,8 @@ const Checkout = () => {
                 if (data?.status === "success") {
                     toast.success(data?.message)
                     setIsLoading(false)
+                    localStorage.removeItem('cartItems');
+                    navigate("/")
                 }
             })
             .catch(error => {
@@ -119,13 +123,12 @@ const Checkout = () => {
 
         console.log(orderData);
         submitOrder(orderData);
+
     }
 
 
     return (
         <div className='max-w-6xl mx-auto py-16'>
-
-
             <div class="mb-11 lg:mb-16">
                 <h2 class="block text-2xl sm:text-3xl lg:text-4xl font-semibold ml-5">Checkout</h2>
             </div>
@@ -134,9 +137,9 @@ const Checkout = () => {
             </h3>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className='flex flex-col lg:flex-row px-5'
+                className='flex flex-col lg:flex-row px-5 pb-16'
             >
-                <div className='flex-1'>
+                <div className='flex-1 '>
                     <div className='scroll-mt-24'>
                         <div className='xl:p-7 p-3 border border-slate-200 dark:border-slate-700 rounded-xl '>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3">

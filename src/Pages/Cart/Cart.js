@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CartRow from './CartRow';
 import { GiEmptyWoodBucketHandle } from "react-icons/gi";
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -8,6 +10,7 @@ const Cart = () => {
     const [shippingEstimate, setShippingEstimate] = useState(0);
     const [taxEstimate, setTaxEstimate] = useState(0);
     const [orderTotal, setOrderTotal] = useState(0);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedCartItems = localStorage.getItem('cartItems');
@@ -48,9 +51,20 @@ const Cart = () => {
         setOrderTotal(total.toFixed(2));
     };
 
+
+    const handleCheckout = () => {
+        if (cartItems.length === 0) {
+            toast.error("You don't have any Cart Item")
+            return;
+        }
+        navigate("/checkout")
+    }
     return (
         <div>
-            <div className='max-w-6xl mx-auto px-5 xl:px-0'>
+            <div className='max-w-6xl mx-auto px-5 xl:px-0 pb-16'>
+                <div class="my-11">
+                    <h2 class="block text-2xl sm:text-3xl lg:text-4xl font-semibold ml-5">Cart</h2>
+                </div>
                 <hr class="border-slate-200 dark:border-slate-700 my-10 xl:my-12" />
                 <div className='flex flex-col lg:flex-row'>
                     <div className='w-full lg:w-[60%] xl:w-[55%] divide-y divide-slate-200 dark:divide-slate-700 '>
@@ -95,12 +109,12 @@ const Cart = () => {
                                     <span>${orderTotal}</span>
                                 </div>
                             </div>
-                            <a
+                            <Link
                                 className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 ttnc-ButtonPrimary disabled:bg-opacity-90 bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 text-slate-50 dark:text-slate-800 shadow-xl mt-8 w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0"
-                                href="/checkout"
+                                onClick={handleCheckout}
                             >
                                 Checkout
-                            </a>
+                            </Link>
                             <div className="mt-5 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center">
                                 <p className="block relative pl-5">
                                     <svg

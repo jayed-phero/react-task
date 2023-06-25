@@ -7,14 +7,14 @@ import item_4 from '../assets/4.png';
 import item_5 from '../assets/5.png';
 import axios from 'axios';
 
-const QuickModal = ({ closeModal, openModal, isOpen, id }) => {
+const QuickModal = ({ closeModal, openModal, isOpen, id, product, addToCart }) => {
     const [data, setData] = useState([]);
-    const { name, price, desc, review, images } = data;
+    const { name, price, desc, review, images } = product;
     console.log(name)
     const [quantity, setQuantity] = useState(1);
     const [isLove, setIsLove] = useState(false);
 
-    console.log(desc)
+    console.log(product)
 
     const handleIncrease = () => {
         setQuantity(quantity + 1);
@@ -60,7 +60,7 @@ const QuickModal = ({ closeModal, openModal, isOpen, id }) => {
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={closeModal}>
+                <Dialog as="div" className="relative z-30 mt-5" onClose={closeModal}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -70,10 +70,10 @@ const QuickModal = ({ closeModal, openModal, isOpen, id }) => {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                        <div className="fixed top-20 inset-0 bg-black bg-opacity-25" />
                     </Transition.Child>
 
-                    <div className="fixed inset-0 overflow-y-auto">
+                    <div className="fixed top-20 inset-0 overflow-y-auto">
                         <div className="flex min-h-full items-center justify-center p-4 text-center">
                             <Transition.Child
                                 as={Fragment}
@@ -87,12 +87,12 @@ const QuickModal = ({ closeModal, openModal, isOpen, id }) => {
                                 <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
 
                                     <div className='lg:flex '>
-                                        <div className='w-full lg:w-[55%] '>
+                                        <div className='w-full lg:w-[55%]'>
                                             <div className='relative'>
                                                 <div className='aspect-w-16 aspect-h-16 relative'>
-                                                    {/* <img src={} alt=""
+                                                    <img src={product?.images[0]} alt=""
                                                         className='w-full rounded-2xl object-cover'
-                                                    /> */}
+                                                    />
                                                 </div>
                                                 <div class="absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-3.5 h-3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"></path></svg>
@@ -199,17 +199,19 @@ const QuickModal = ({ closeModal, openModal, isOpen, id }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button class="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6  ttnc-ButtonPrimary disabled:bg-opacity-90 bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 text-slate-50 dark:text-slate-800 shadow-xl flex-1 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0">
+                                                <button
+                                                    onClick={() => addToCart(product)}
+                                                    class="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6  ttnc-ButtonPrimary disabled:bg-opacity-90 bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 text-slate-50 dark:text-slate-800 shadow-xl flex-1 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0">
                                                     <svg class="hidden sm:inline-block w-5 h-5 mb-0.5" viewBox="0 0 9 9" fill="none"><path d="M2.99997 4.125C3.20708 4.125 3.37497 4.29289 3.37497 4.5C3.37497 5.12132 3.87865 5.625 4.49997 5.625C5.12129 5.625 5.62497 5.12132 5.62497 4.5C5.62497 4.29289 5.79286 4.125 5.99997 4.125C6.20708 4.125 6.37497 4.29289 6.37497 4.5C6.37497 5.53553 5.5355 6.375 4.49997 6.375C3.46444 6.375 2.62497 5.53553 2.62497 4.5C2.62497 4.29289 2.79286 4.125 2.99997 4.125Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M6.37497 2.625H7.17663C7.76685 2.625 8.25672 3.08113 8.29877 3.66985L8.50924 6.61641C8.58677 7.70179 7.72715 8.625 6.63901 8.625H2.36094C1.2728 8.625 0.413174 7.70179 0.490701 6.61641L0.70117 3.66985C0.743222 3.08113 1.23309 2.625 1.82331 2.625H2.62497L2.62497 2.25C2.62497 1.21447 3.46444 0.375 4.49997 0.375C5.5355 0.375 6.37497 1.21447 6.37497 2.25V2.625ZM3.37497 2.625H5.62497V2.25C5.62497 1.62868 5.12129 1.125 4.49997 1.125C3.87865 1.125 3.37497 1.62868 3.37497 2.25L3.37497 2.625ZM1.82331 3.375C1.62657 3.375 1.46328 3.52704 1.44926 3.72328L1.2388 6.66985C1.19228 7.32107 1.70805 7.875 2.36094 7.875H6.63901C7.29189 7.875 7.80766 7.32107 7.76115 6.66985L7.55068 3.72328C7.53666 3.52704 7.37337 3.375 7.17663 3.375H1.82331Z" fill="currentColor"></path></svg>
                                                     <span class="ml-3">Add to cart</span>
                                                 </button>
                                             </div>
-                                            <hr class=" 2xl:!my-10 border-slate-200 dark:border-slate-700"></hr>
+                                            <hr class=" 2xl:!my-10 border-slate-200 dark:border-slate-700 my-5"></hr>
                                             <div className='w-full rounded-2xl space-y-2.5'>
                                                 <button class="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 " id="headlessui-disclosure-button-:R179bdcja:" type="button" aria-expanded="true" data-headlessui-state="open" aria-controls="headlessui-disclosure-panel-:R279bdcja:">
                                                     <span>Description</span>
                                                 </button>
-                                                <div class="p-4 pt-3 last:pb-0 text-slate-600 text-sm dark:text-slate-300 leading-6" id="headlessui-disclosure-panel-:R279bdcja:" data-headlessui-state="open">Fashion is a form of self-expression and autonomy at a particular period and place and in a specific context, of clothing, footwear, lifestyle, accessories, makeup, hairstyle, and body posture.</div>
+                                                <div class="p-4 pt-3 last:pb-0 text-slate-600 text-sm dark:text-slate-300 leading-6" id="headlessui-disclosure-panel-:R279bdcja:" data-headlessui-state="open">{desc}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +222,7 @@ const QuickModal = ({ closeModal, openModal, isOpen, id }) => {
                                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                             onClick={closeModal}
                                         >
-                                            Got it, thanks!
+                                            Close
                                         </button>
                                     </div>
                                 </Dialog.Panel>
