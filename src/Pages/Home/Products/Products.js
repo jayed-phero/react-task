@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
+import CartSIdebar from './CartSIdebar';
 
 const Products = () => {
     const [products, setProducts] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
+    const [showCartSidebar, setShowCartSidebar] = useState(false);
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(5);
@@ -28,6 +31,27 @@ const Products = () => {
         fetchProducts();
     }, []);
 
+    const addToCart = (product) => {
+        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const existingItemIndex = existingCartItems.findIndex((item) => item._id === product._id);
+
+        if (existingItemIndex !== -1) {
+            existingCartItems[existingItemIndex].quantity += 1;
+        } else {
+            const newItem = { ...product, quantity: 1 };
+            existingCartItems.push(newItem);
+        }
+
+        setCartItems(existingCartItems);
+        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+        // toast.success("Product added in cart");
+        setShowCartSidebar(true);
+
+        setTimeout(() => {
+            setShowCartSidebar(false);
+        }, 1000);
+    };
+
     console.log(products)
     return (
         <div className='max-w-6xl mx-auto px-5 xl:px-0'>
@@ -38,10 +62,12 @@ const Products = () => {
                             key={product._id}
                             product={product}
                             i={i}
+                            addToCart={addToCart}
                         />
                     ))
                 }
             </div>
+            {showCartSidebar && <CartSIdebar cartItems={cartItems} />}
         </div>
     );
 };

@@ -1,0 +1,14 @@
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%);
+}
+
+.cart-sidebar.show {
+    transform: translateX(0%);
+}

@@ -5,6 +5,7 @@ import Orders from "../Pages/Orders/Orders";
 import Products from "../Pages/Home/Products/Products";
 import ProductDetailsPage from "../Pages/Home/Products/ProductDetailsPage";
 import axios from "axios";
+import Cart from "../Pages/Cart/Cart";
 
 const routes = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const routes = createBrowserRouter([
                         return null;
                     }
                 }
+            },
+            {
+                path: '/cart',
+                element: <Cart />
             }
         ]
     },
